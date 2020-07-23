@@ -8,6 +8,8 @@ The web-page is intentionally kept simple to support even oldest iOS versions. B
 
 All image transformation is done on the server using the `sharp` library. In the UI, it shows a full-page image with a caption in the lower left corner. The caption shown is the folder name of the photo being shown.
 
+To pause the slideshow, just tap on the screen. Tapping again continues it.
+
 ## Runnning
 
 Run the server directly using `node imageServer.js` or use the Dockerfile to run it as container.
