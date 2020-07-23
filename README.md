@@ -10,9 +10,27 @@ All image transformation is done on the server using the `sharp` library. In the
 
 To pause the slideshow, just tap on the screen. Tapping again continues it.
 
+## Build
+
+If you run photoFrame directly:
+```
+npm install
+```
+
+To run it as container:
+```
+docker build -t photoframe .
+```
+
+
 ## Runnning
 
-Run the server directly using `node imageServer.js` or use the Dockerfile to run it as container.
+Run the server directly using `node imageServer.js` or use the Dockerfile to run it as container. At least map the photo directory and config file into the container:
+```
+docker run -d -p 9090:9090 -v <yourpath>/config.json:/app/config.json -v <photopath>:/photos photoframe
+```
+
+With that you can change the config and just restart the container.
 
 On your tablet load the page on port 9090:
 ```
@@ -26,7 +44,6 @@ Photos change after 20 seconds. Feel free to change it in `index.html`.
 ## Configure
 
 You can configure basic file/directory filtering and the start folder to search for image files in configure.json:
-
 ```
 {
     "includeFiles": [ ".*jpg", ".*jpeg" ],
