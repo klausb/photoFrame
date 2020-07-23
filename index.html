@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Fotos">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  </head>
+  <body id="body">
+      <style>
+        body {
+          background-color: black;
+          margin: 0px;
+        }
+        h2 {
+          position: absolute;
+          bottom: 10px;
+          left: 10px;
+          background: rgba(0, 0, 0, 0.50);
+          padding: 4px 8px;
+          border-radius: 8px;
+          color: white;
+          margin: 0;
+          font: 28px Sans-Serif;
+        }
+      </style>
+    <img id="img" src="" width="1024" height="768">
+    <h2 id="title">Title here</h2>
+  </body>
+  <script>
+    var paused = false;
+    document.getElementById('body').ontouchstart = function (eve) {
+      document.getElementById('title').innerHTML = paused ? 'Es geht weiter...' : 'PAUSE';
+      paused = !paused;
+    }
+
+    var img = document.getElementById('img');
+    var title = document.getElementById('title');
+    var currentTitle = '';
+    img.onload = function() {
+      title.innerHTML = currentTitle;
+    };
+
+    function reqListener () {
+      var data = JSON.parse(this.responseText);
+      img.src = "/img/"+data.id+"#"+Date.now();
+      currentTitle = data.title;
+    }
+
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", reqListener);
+
+    function loadImg() {
+      if (paused) return;
+
+      oReq.open("GET", "/next");
+      oReq.send();
+    }
+    setInterval(loadImg, 20000);
+    loadImg();
+  </script>
+</html>
